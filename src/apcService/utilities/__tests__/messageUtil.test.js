@@ -6,7 +6,7 @@ describe('Module messageUtil', () => {
   const fakeType = 'FACTOR_THICKNESS';
   const fakeFactor = 0.5;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     await dbClient.init();
 
     await initDBFactorValue(0.5,0.5);
