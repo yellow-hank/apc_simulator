@@ -13,11 +13,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v2
-      - name: Build database
-        run: docker-compose run mongodb
-      - name: Build event bus
-        run: docker-compose run n1.node
+      - name: Build environment
+        run: docker-compose up -d
       - run: npm ci
       - run: npm test
   push:
