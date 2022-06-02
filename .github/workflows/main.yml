@@ -14,10 +14,12 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v2
-     
+      - name: Build dependency enviornment
+        run: docker-compose run mongodb n1.node -d
       - run: npm ci
       - run: npm test
   push:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Login to DockerHub
