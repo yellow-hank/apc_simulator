@@ -7,9 +7,9 @@ describe('Module messageUtil', () => {
   const fakeFactor = 0.5;
 
   beforeEach(async () => {
-    await dbClient.init();
+    // await dbClient.init();
 
-    await initDBFactorValue(0.5,0.5);
+    // await initDBFactorValue(0.5,0.5);
     
     jest.clearAllMocks();
   });
