@@ -104,3 +104,7 @@ process.on('SIGINT', async () => {
 
   process.exit();
 });
+
+module.exports = {
+  initDBFactorValue
+};
