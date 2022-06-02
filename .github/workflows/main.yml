@@ -13,10 +13,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.7.0
-        with:
-          mongodb-version: 5.0
+      - name: build environment
+        run : docker-compose up -d mongodb n1.node
       - run: npm ci
       - run: npm test
   push:
