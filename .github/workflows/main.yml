@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build environment
-        run: docker-compose up mongodb n1.node -d
+        run: docker-compose up -d mongodb n1.node 
       - run: npm ci
       - run: npm test
   push:
