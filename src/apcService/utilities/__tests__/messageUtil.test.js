@@ -1,6 +1,6 @@
 const { natsMessageHandler } = require('../messageUtil');
-const dbClient = require('../../../utilities/db');
-const { initDBFactorValue } = require('../../../index');
+// const dbClient = require('../../../utilities/db');
+// const { initDBFactorValue } = require('../../../index');
 
 describe('Module messageUtil', () => {
   const fakeType = 'FACTOR_THICKNESS';
