@@ -11,7 +11,7 @@ module.exports = {
     consumer: 'testbed_consumer',
   },
   mongodb: {
-    connection: 'mongodb://mongodb:27017/apc',
+    connection: 'mongodb://localhost:27017/apc',
   },
   domainService: {
     apc: {
