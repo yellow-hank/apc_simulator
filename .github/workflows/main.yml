@@ -17,6 +17,8 @@ jobs:
         run : docker-compose up -d mongodb n1.node
       - run: npm ci
       - run: npm test
+        env:
+          Test: true
   push:
     needs: test
     runs-on: ubuntu-latest

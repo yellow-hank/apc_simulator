@@ -1,15 +1,10 @@
 const { natsMessageHandler } = require('../messageUtil');
-// const dbClient = require('../../../utilities/db');
-// const { initDBFactorValue } = require('../../../index');
 
 describe('Module messageUtil', () => {
   const fakeType = 'FACTOR_THICKNESS';
   const fakeFactor = 0.5;
 
   beforeEach(async () => {
-    // await dbClient.init();
-
-    // await initDBFactorValue(0.5,0.5);
     
     jest.clearAllMocks();
   });
