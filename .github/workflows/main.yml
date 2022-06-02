@@ -15,9 +15,9 @@ jobs:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v2
       - name: Build database
-        run: docker-compose run mongodb  -d
+        run: docker-compose run mongodb
       - name: Build event bus
-        run: docker-compose run n1.node -d
+        run: docker-compose run n1.node
       - run: npm ci
       - run: npm test
   push:
