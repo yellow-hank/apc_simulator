@@ -1,10 +1,15 @@
 version: '3'
 services:
-  apc:
-    container_name: apc
-    build: .
-    networks:
-      - mongodb_nats
+  # apc:
+  #   container_name: apc
+  #   build: .
+  #   depends_on:
+  #     - mongodb
+  #     - n1.node
+  #     - n2.node
+  #     - n3.node
+  #   networks:
+  #     - mongodb_nats
   mongodb:
     container_name: mongo
     image: mongo:5.0
