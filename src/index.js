@@ -106,5 +106,6 @@ process.on('SIGINT', async () => {
 });
 
 module.exports = {
-  initDBFactorValue
+  initDBFactorValue,
+  initGlobalNATSClient,
 };
