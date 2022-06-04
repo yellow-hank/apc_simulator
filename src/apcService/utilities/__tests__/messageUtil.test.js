@@ -1,26 +1,53 @@
 const { natsMessageHandler } = require('../messageUtil');
 
 describe('Module messageUtil', () => {
-  const fakeType = 'FACTOR_THICKNESS';
   const fakeFactor = 0.5;
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('Method natsMessageHandler for success', async () => {
+  it('Method natsMessageHandler for fail (no cache)', async () => {
+    global.cache = false;
+
+    natsMessageHandler(
+      JSON.stringify({
+        type: 'FACTOR_THICKNESS',
+        factor: fakeFactor,
+      })
+    );
+
+    expect(global.cache === false);
+  });
+  
+  it('Method natsMessageHandler for success (THICKNESS)', async () => {
     global.cache = {
       set: jest.fn().mockReturnValueOnce(true),
     };
 
     natsMessageHandler(
       JSON.stringify({
-        type: fakeType,
+        type: 'FACTOR_THICKNESS',
         factor: fakeFactor,
       })
     );
 
-    expect(global.cache.set).toHaveBeenCalledWith(fakeType, fakeFactor);
+    expect(global.cache.set).toHaveBeenCalledWith('FACTOR_THICKNESS', fakeFactor);
+  });
+
+  it('Method natsMessageHandler for success(MOISTURE)', async () => {
+    global.cache = {
+      set: jest.fn().mockReturnValueOnce(true),
+    };
+
+    natsMessageHandler(
+      JSON.stringify({
+        type: 'FACTOR_MOISTURE',
+        factor: fakeFactor,
+      })
+    );
+
+    expect(global.cache.set).toHaveBeenCalledWith('FACTOR_MOISTURE', fakeFactor);
   });
 
   it('Method natsMessageHandler for failed', async () => {
