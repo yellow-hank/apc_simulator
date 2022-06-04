@@ -1,19 +1,19 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
-const { nats } = require('config');
+const { nats } = require("config");
 
-const NodeCache = require('node-cache');
+const NodeCache = require("node-cache");
 
-const logger = require('./utilities/logger')('INDEX');
-const NATSClient = require('./utilities/natsClient');
-const dbClient = require('./utilities/db');
+const logger = require("./utilities/logger")("INDEX");
+const NATSClient = require("./utilities/natsClient");
+const dbClient = require("./utilities/db");
 
-const { create, get, update } = require('./controllers/factor');
+const { create, get, update } = require("./controllers/factor");
 
-const measureService = require('./measureService');
-const apcService = require('./apcService');
-const paramsService = require('./paramsService');
+const measureService = require("./measureService");
+const apcService = require("./apcService");
+const paramsService = require("./paramsService");
 
 let measureHandle = null;
 let paramsHandle = null;
@@ -31,9 +31,15 @@ const initGlobalNATSClient = async () => {
   // clear stream and consumer by existence
   let stream = await global.natsClient.getStream(nats.stream);
   if (stream) {
-    let consumer = await global.natsClient.getConsumer(nats.stream, `${nats.consumer}_params`);
+    let consumer = await global.natsClient.getConsumer(
+      nats.stream,
+      `${nats.consumer}_params`
+    );
     if (consumer) {
-      await global.natsClient.deleteConsumer(nats.stream, `${nats.consumer}_params`);
+      await global.natsClient.deleteConsumer(
+        nats.stream,
+        `${nats.consumer}_params`
+      );
     }
     await global.natsClient.deleteStream(nats.stream);
   }
@@ -42,33 +48,36 @@ const initGlobalNATSClient = async () => {
   await global.natsClient.addStream(nats.stream, [`${nats.subject}.>`]);
 
   // add the consumer
-  await global.natsClient.addConsumer(nats.stream, `${nats.subject}.params`, `${nats.consumer}_params`);
+  await global.natsClient.addConsumer(
+    nats.stream,
+    `${nats.subject}.params`,
+    `${nats.consumer}_params`
+  );
 };
 
 const initGlobalCache = async () => {
   global.cache = new NodeCache();
 
-  global.cache.set('FACTOR_THICKNESS', 0.5);
-  global.cache.set('FACTOR_MOISTURE', 0.5);
+  global.cache.set("FACTOR_THICKNESS", 0.5);
+  global.cache.set("FACTOR_MOISTURE", 0.5);
 };
 
 const initDBFactorValue = async (moisture, thickness) => {
-    const data = await get({});
-    
-    if(data){
-      console.log("factor exist");
-    }else{
-      create(thickness, moisture);
-      console.log("create");
-    }
+  const data = await get({});
 
+  if (data) {
+    console.log("factor exist");
+  } else {
+    create(thickness, moisture);
+    console.log("create");
+  }
 };
 
 const run = async () => {
   // initialize the global resource
   await dbClient.init();
 
-  await initDBFactorValue(0.5,0.5);
+  await initDBFactorValue(0.5, 0.5);
 
   await initGlobalNATSClient();
   await initGlobalCache();
@@ -81,7 +90,7 @@ const run = async () => {
 
 run();
 
-process.on('SIGINT', async () => {
+process.on("SIGINT", async () => {
   if (global.cache) {
     await global.cache.close();
     global.cache = null;

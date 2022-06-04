@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
 factorSchema = new Schema({
-  
   thickness: {
     type: Schema.Types.Decimal128,
     required: true,
@@ -14,6 +13,6 @@ factorSchema = new Schema({
   },
 });
 
-const Deliver = mongoose.model('factor', factorSchema);
+const Deliver = mongoose.model("factor", factorSchema);
 
 module.exports = Deliver;

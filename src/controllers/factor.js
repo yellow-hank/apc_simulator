@@ -1,11 +1,11 @@
-const Factor = require('../models/factor');
+const Factor = require("../models/factor");
 
-const logger = require('../utilities/logger')('INDEX');
+const logger = require("../utilities/logger")("INDEX");
 
 const create = async (thickness, moisture) => {
   try {
     if (!thickness || !moisture) {
-      throw new Error('the required parameters are not existed');
+      throw new Error("the required parameters are not existed");
     }
     const data = await Factor.create({
       thickness,
@@ -21,18 +21,16 @@ const create = async (thickness, moisture) => {
 };
 
 const get = async (filter) => {
-  
   const data = await Factor.findOne({});
-  if(data)
+  if (data)
     return { id: data._id, thickness: data.thickness, moisture: data.moisture };
   return null;
-  
 };
 
 const update = async (filter, data) => {
   try {
     if (!filter || !data) {
-      throw new Error('the required parameters are not existed');
+      throw new Error("the required parameters are not existed");
     }
     const { modifiedCount } = await Factor.updateMany({}, data);
 
@@ -51,7 +49,7 @@ const update = async (filter, data) => {
 const destroy = async (filter) => {
   try {
     if (!filter) {
-      throw new Error('the required parameters are not existed');
+      throw new Error("the required parameters are not existed");
     }
     const { deletedCount } = await Factor.deleteMany({});
 

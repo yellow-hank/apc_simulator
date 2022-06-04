@@ -26,7 +26,6 @@ const stripStrategy = (moisture, mFactor, thickness, tFactor, doneness) => {
   };
 };
 
-
 module.exports = {
   defaultStrategy,
   sharonStrategy,

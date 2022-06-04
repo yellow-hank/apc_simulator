@@ -1,13 +1,17 @@
-const { sharonStrategy, defaultStrategy, stripStrategy } = require('../strategyUtil');
+const {
+  sharonStrategy,
+  defaultStrategy,
+  stripStrategy,
+} = require("../strategyUtil");
 
-describe('Module strategyUtil', () => {
+describe("Module strategyUtil", () => {
   const fakeThickness = 2.0;
   const fakeMoisture = 0.65;
   const fakeTFactor = 0.5;
   const fakeMFactor = 0.5;
   const fakeDoneness = 5;
 
-  it('Method sharonStrategy', () => {
+  it("Method sharonStrategy", () => {
     const res = sharonStrategy(fakeThickness, fakeTFactor);
 
     expect(res).toStrictEqual({
@@ -16,7 +20,7 @@ describe('Module strategyUtil', () => {
     });
   });
 
-  it('Method defaultStrategy', () => {
+  it("Method defaultStrategy", () => {
     const res = defaultStrategy(fakeMoisture, fakeMFactor);
 
     expect(res).toStrictEqual({
@@ -25,8 +29,14 @@ describe('Module strategyUtil', () => {
     });
   });
 
-  it('Method stripStrategy', () => {
-    const res = stripStrategy(fakeMoisture, fakeMFactor, fakeThickness, fakeTFactor, fakeDoneness);
+  it("Method stripStrategy", () => {
+    const res = stripStrategy(
+      fakeMoisture,
+      fakeMFactor,
+      fakeThickness,
+      fakeTFactor,
+      fakeDoneness
+    );
 
     expect(res).toStrictEqual({
       period: (60 + fakeDoneness * 30).toFixed(2),

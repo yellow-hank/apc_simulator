@@ -1,16 +1,20 @@
-const moment = require('moment');
-const uuidv4 = require('uuid').v4;
-const NodeCache = require('node-cache');
-const { createLogger, format, transports } = require('winston');
+const moment = require("moment");
+const uuidv4 = require("uuid").v4;
+const NodeCache = require("node-cache");
+const { createLogger, format, transports } = require("winston");
 const { timestamp, printf, combine, splat, label } = format;
 
-const customFormat = printf(({ timestamp, label, message, level, ...metadata }) => {
-  return `[${label}] | ${timestamp} | ${level} | ${message} | ${JSON.stringify(metadata)}`;
-});
+const customFormat = printf(
+  ({ timestamp, label, message, level, ...metadata }) => {
+    return `[${label}] | ${timestamp} | ${level} | ${message} | ${JSON.stringify(
+      metadata
+    )}`;
+  }
+);
 
 const func = (loggerLabel) => {
   const logger = createLogger({
-    level: 'debug',
+    level: "debug",
     format: combine(
       timestamp(),
       label({
@@ -20,7 +24,7 @@ const func = (loggerLabel) => {
       splat(),
       customFormat
     ),
-    transports: [new transports.Console({ level: 'debug' })],
+    transports: [new transports.Console({ level: "debug" })],
   });
 
   logger.cache = new NodeCache();
@@ -42,22 +46,30 @@ const func = (loggerLabel) => {
     return handle;
   };
 
-  logger.end = (handle, metadata = {}, message = 'complete the process') => {
+  logger.end = (handle, metadata = {}, message = "complete the process") => {
     const cacheData = getDelHandleData(handle);
     if (!cacheData) return;
 
     const duration = moment().diff(cacheData.ts);
 
-    logger.info(message, { _duration: duration, ...cacheData.metadata, ...metadata });
+    logger.info(message, {
+      _duration: duration,
+      ...cacheData.metadata,
+      ...metadata,
+    });
   };
 
-  logger.fail = (handle, metadata = {}, message = 'the process is faulted') => {
+  logger.fail = (handle, metadata = {}, message = "the process is faulted") => {
     const cacheData = getDelHandleData(handle);
     if (!cacheData) return;
 
     const duration = moment().diff(cacheData.ts);
 
-    logger.error(message, { _duration: duration, ...cacheData.metadata, ...metaData });
+    logger.error(message, {
+      _duration: duration,
+      ...cacheData.metadata,
+      ...metaData,
+    });
   };
 
   return logger;

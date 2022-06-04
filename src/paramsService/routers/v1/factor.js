@@ -1,22 +1,22 @@
-const { nats } = require('config');
+const { nats } = require("config");
 
-const express = require('express');
+const express = require("express");
 
-const logger = require('../../../utilities/logger')('PARAMS_SERVICE');
+const logger = require("../../../utilities/logger")("PARAMS_SERVICE");
 
 const router = express.Router();
 
-router.post('/api/v1/factor/thickness', async (req, res) => {
+router.post("/api/v1/factor/thickness", async (req, res) => {
   const { factor } = req.body;
 
   const handle = logger.begin({ factor });
 
   try {
     if (!global.natsClient) {
-      throw new Error('the natsClient is not existed');
+      throw new Error("the natsClient is not existed");
     }
     await global.natsClient.publish(`${nats.subject}.params`, {
-      type: 'FACTOR_THICKNESS',
+      type: "FACTOR_THICKNESS",
       factor,
     });
 
@@ -35,17 +35,17 @@ router.post('/api/v1/factor/thickness', async (req, res) => {
   }
 });
 
-router.post('/api/v1/factor/moisture', async (req, res) => {
+router.post("/api/v1/factor/moisture", async (req, res) => {
   const { factor } = req.body;
 
   const handle = logger.begin({ factor });
 
   try {
     if (!global.natsClient) {
-      throw new Error('the natsClient is not existed');
+      throw new Error("the natsClient is not existed");
     }
     await global.natsClient.publish(`${nats.subject}.params`, {
-      type: 'FACTOR_MOISTURE',
+      type: "FACTOR_MOISTURE",
       factor,
     });
 

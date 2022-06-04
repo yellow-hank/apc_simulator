@@ -1,14 +1,14 @@
-const { natsMessageHandler } = require('../messageUtil');
+const { natsMessageHandler } = require("../messageUtil");
 
-describe('Module messageUtil', () => {
-  const fakeType = 'FACTOR_THICKNESS';
+describe("Module messageUtil", () => {
+  const fakeType = "FACTOR_THICKNESS";
   const fakeFactor = 0.5;
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('Method natsMessageHandler for success', async () => {
+  it("Method natsMessageHandler for success", async () => {
     global.cache = {
       set: jest.fn().mockReturnValueOnce(true),
     };
@@ -23,14 +23,14 @@ describe('Module messageUtil', () => {
     expect(global.cache.set).toHaveBeenCalledWith(fakeType, fakeFactor);
   });
 
-  it('Method natsMessageHandler for failed', async () => {
+  it("Method natsMessageHandler for failed", async () => {
     global.cache = {
       set: jest.fn().mockReturnValueOnce(true),
     };
 
     natsMessageHandler(
       JSON.stringify({
-        type: 'FAKE_TYPE',
+        type: "FAKE_TYPE",
         factor: fakeFactor,
       })
     );
