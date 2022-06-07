@@ -4,7 +4,10 @@
   "description": "the project to simulate the APC scenario",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "prettier": "prettier --config ./.prettierrc \"./src/**/*.js\"",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --check"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
     "mongoose": "^6.3.4",
     "nats": "^2.6.1",
     "node-cache": "^5.1.2",
+    "prettier": "^2.6.2",
     "uuid": "^8.3.2",
     "winston": "^3.7.2"
   }
