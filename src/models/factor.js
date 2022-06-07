@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 factorSchema = new Schema({
-  
   thickness: {
     type: Schema.Types.Decimal128,
     required: true,

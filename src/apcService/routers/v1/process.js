@@ -1,6 +1,11 @@
 const express = require('express');
 
-const {Strategy, defaultStrategy, sharonStrategy, stripStrategy } = require('../../utilities/strategyUtil');
+const {
+  Strategy,
+  defaultStrategy,
+  sharonStrategy,
+  stripStrategy,
+} = require('../../utilities/strategyUtil');
 
 const { get } = require('../../../controllers/factor');
 const { Logform } = require('winston');
@@ -27,23 +32,22 @@ router.post('/api/v1/process', async (req, res) => {
     // const tFactor = global.cache.get('FACTOR_THICKNESS');
     // const mFactor = global.cache.get('FACTOR_MOISTURE');
 
-    
-    const factor = await get(); 
-  
-    var steakParameter = new Map(
-      [["tFactor" , factor.thickness],
-       ["mFactor" , factor.moisture],
-       ["doneness" , doneness],
-       ["moisture" , moisture],
-       ["thickness" , thickness]]
-    ) 
+    const factor = await get();
+
+    var steakParameter = new Map([
+      ['tFactor', factor.thickness],
+      ['mFactor', factor.moisture],
+      ['doneness', doneness],
+      ['moisture', moisture],
+      ['thickness', thickness],
+    ]);
 
     let data = null;
     const strategy = new Strategy();
     if (type === 'SHARON') {
       const sharonmethod = new sharonStrategy();
       strategy.setStrategy(sharonmethod);
-    } else if (type == 'STRIP'){
+    } else if (type == 'STRIP') {
       const stripmethod = new stripStrategy();
       strategy.setStrategy(stripmethod);
     } else {
@@ -52,11 +56,17 @@ router.post('/api/v1/process', async (req, res) => {
     }
     data = strategy.runningStrategy(steakParameter);
 
-    const tFactor = steakParameter.get("tFactor");
-    const mFactor = steakParameter.get("mFactor");
-    logger.end(handle, { tFactor, mFactor, ...data }, `process (${id}) of APC has completed`);
-    
-    return res.status(200).send({ ok: true, data: { ...data, tFactor, mFactor } });
+    const tFactor = steakParameter.get('tFactor');
+    const mFactor = steakParameter.get('mFactor');
+    logger.end(
+      handle,
+      { tFactor, mFactor, ...data },
+      `process (${id}) of APC has completed`
+    );
+
+    return res
+      .status(200)
+      .send({ ok: true, data: { ...data, tFactor, mFactor } });
   } catch (err) {
     logger.fail(handle, { tFactor, mFactor }, err.message);
 

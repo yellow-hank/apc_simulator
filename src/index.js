@@ -31,9 +31,15 @@ const initGlobalNATSClient = async () => {
   // clear stream and consumer by existence
   let stream = await global.natsClient.getStream(nats.stream);
   if (stream) {
-    let consumer = await global.natsClient.getConsumer(nats.stream, `${nats.consumer}_params`);
+    let consumer = await global.natsClient.getConsumer(
+      nats.stream,
+      `${nats.consumer}_params`
+    );
     if (consumer) {
-      await global.natsClient.deleteConsumer(nats.stream, `${nats.consumer}_params`);
+      await global.natsClient.deleteConsumer(
+        nats.stream,
+        `${nats.consumer}_params`
+      );
     }
     await global.natsClient.deleteStream(nats.stream);
   }
@@ -42,7 +48,11 @@ const initGlobalNATSClient = async () => {
   await global.natsClient.addStream(nats.stream, [`${nats.subject}.>`]);
 
   // add the consumer
-  await global.natsClient.addConsumer(nats.stream, `${nats.subject}.params`, `${nats.consumer}_params`);
+  await global.natsClient.addConsumer(
+    nats.stream,
+    `${nats.subject}.params`,
+    `${nats.consumer}_params`
+  );
 };
 
 const initGlobalCache = async () => {
@@ -53,22 +63,21 @@ const initGlobalCache = async () => {
 };
 
 const initDBFactorValue = async (moisture, thickness) => {
-    const data = await get({});
-    
-    if(data){
-      console.log("factor exist");
-    }else{
-      create(thickness, moisture);
-      console.log("create");
-    }
+  const data = await get({});
 
+  if (data) {
+    console.log('factor exist');
+  } else {
+    create(thickness, moisture);
+    console.log('create');
+  }
 };
 
 const run = async () => {
   // initialize the global resource
   await dbClient.init();
 
-  await initDBFactorValue(0.5,0.5);
+  await initDBFactorValue(0.5, 0.5);
 
   await initGlobalNATSClient();
   await initGlobalCache();

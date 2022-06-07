@@ -4,9 +4,13 @@ const NodeCache = require('node-cache');
 const { createLogger, format, transports } = require('winston');
 const { timestamp, printf, combine, splat, label } = format;
 
-const customFormat = printf(({ timestamp, label, message, level, ...metadata }) => {
-  return `[${label}] | ${timestamp} | ${level} | ${message} | ${JSON.stringify(metadata)}`;
-});
+const customFormat = printf(
+  ({ timestamp, label, message, level, ...metadata }) => {
+    return `[${label}] | ${timestamp} | ${level} | ${message} | ${JSON.stringify(
+      metadata
+    )}`;
+  }
+);
 
 const func = (loggerLabel) => {
   const logger = createLogger({
@@ -48,7 +52,11 @@ const func = (loggerLabel) => {
 
     const duration = moment().diff(cacheData.ts);
 
-    logger.info(message, { _duration: duration, ...cacheData.metadata, ...metadata });
+    logger.info(message, {
+      _duration: duration,
+      ...cacheData.metadata,
+      ...metadata,
+    });
   };
 
   logger.fail = (handle, metadata = {}, message = 'the process is faulted') => {
@@ -57,7 +65,11 @@ const func = (loggerLabel) => {
 
     const duration = moment().diff(cacheData.ts);
 
-    logger.error(message, { _duration: duration, ...cacheData.metadata, ...metaData });
+    logger.error(message, {
+      _duration: duration,
+      ...cacheData.metadata,
+      ...metaData,
+    });
   };
 
   return logger;

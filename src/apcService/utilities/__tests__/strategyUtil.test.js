@@ -1,13 +1,18 @@
-const {Strategy, sharonStrategy, defaultStrategy, stripStrategy } = require('../strategyUtil');
+const {
+  Strategy,
+  sharonStrategy,
+  defaultStrategy,
+  stripStrategy,
+} = require('../strategyUtil');
 
 describe('Module strategyUtil', () => {
-  const steakParameter = new Map(
-    [["tFactor" , 0.5],
-     ["mFactor" , 0.5],
-     ["doneness" , 5],
-     ["moisture" , 0.65],
-     ["thickness" , 2.0]]
-  ) 
+  const steakParameter = new Map([
+    ['tFactor', 0.5],
+    ['mFactor', 0.5],
+    ['doneness', 5],
+    ['moisture', 0.65],
+    ['thickness', 2.0],
+  ]);
   const strategy = new Strategy();
 
   it('Method sharonStrategy', () => {
@@ -17,7 +22,9 @@ describe('Module strategyUtil', () => {
 
     expect(res).toStrictEqual({
       period: 20,
-      temperature: (steakParameter.get("thickness") * steakParameter.get("tFactor")).toFixed(2),
+      temperature: (
+        steakParameter.get('thickness') * steakParameter.get('tFactor')
+      ).toFixed(2),
     });
   });
 
@@ -27,7 +34,9 @@ describe('Module strategyUtil', () => {
     const res = strategy.runningStrategy(steakParameter);
 
     expect(res).toStrictEqual({
-      period: (steakParameter.get("moisture") * steakParameter.get("mFactor")).toFixed(2),
+      period: (
+        steakParameter.get('moisture') * steakParameter.get('mFactor')
+      ).toFixed(2),
       temperature: 100,
     });
   });
@@ -38,8 +47,11 @@ describe('Module strategyUtil', () => {
     const res = strategy.runningStrategy(steakParameter);
 
     expect(res).toStrictEqual({
-      period: (60 + steakParameter.get("doneness") * 30).toFixed(2),
-      temperature: (steakParameter.get("thickness") * steakParameter.get("tFactor") + 100).toFixed(2),
+      period: (60 + steakParameter.get('doneness') * 30).toFixed(2),
+      temperature: (
+        steakParameter.get('thickness') * steakParameter.get('tFactor') +
+        100
+      ).toFixed(2),
     });
   });
 });

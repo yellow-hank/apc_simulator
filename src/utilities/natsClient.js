@@ -1,4 +1,10 @@
-const { connect, StringCodec, consumerOpts, credsAuthenticator, AckPolicy } = require('nats');
+const {
+  connect,
+  StringCodec,
+  consumerOpts,
+  credsAuthenticator,
+  AckPolicy,
+} = require('nats');
 
 const logger = require('./logger')('NATSClient');
 
@@ -17,7 +23,13 @@ class NATSClient {
       this.nc = await connect({
         name,
         servers,
-        ...(creds ? { authenticator: credsAuthenticator(new TextEncoder().encode(creds)) } : {}),
+        ...(creds
+          ? {
+              authenticator: credsAuthenticator(
+                new TextEncoder().encode(creds)
+              ),
+            }
+          : {}),
       });
 
       this.jsm = await this.nc.jetstreamManager({
@@ -34,7 +46,10 @@ class NATSClient {
         }
       }, 10000);
 
-      logger.info('Successfully connect to NATS', { module: 'natsClient', method: 'connect' });
+      logger.info('Successfully connect to NATS', {
+        module: 'natsClient',
+        method: 'connect',
+      });
     } catch (err) {
       logger.error(err.message, { module: 'natsClient', method: 'connect' });
       throw err;
@@ -73,7 +88,10 @@ class NATSClient {
       this.subs = {};
       this.handler = null;
 
-      logger.info('Successfully disconnect to NATS', { module: 'natsClient', method: 'disconnect' });
+      logger.info('Successfully disconnect to NATS', {
+        module: 'natsClient',
+        method: 'disconnect',
+      });
     } catch (err) {
       logger.error(err.message, { module: 'natsClient', method: 'disconnect' });
       throw err;
@@ -92,7 +110,10 @@ class NATSClient {
       const res = await this.jsm.streams.list().next();
       return res;
     } catch (err) {
-      logger.error(err.message, { module: 'natsClient', method: 'listStreams' });
+      logger.error(err.message, {
+        module: 'natsClient',
+        method: 'listStreams',
+      });
 
       return [];
     }
@@ -125,7 +146,10 @@ class NATSClient {
       const res = await this.jsm.streams.delete(stream);
       return res;
     } catch (err) {
-      logger.error(err.message, { module: 'natsClient', method: 'deleteStream' });
+      logger.error(err.message, {
+        module: 'natsClient',
+        method: 'deleteStream',
+      });
 
       return;
     }
@@ -136,7 +160,10 @@ class NATSClient {
       const res = await this.jsm.consumers.list(stream).next();
       return res;
     } catch (err) {
-      logger.error(err.message, { module: 'natsClient', method: 'listConsumers' });
+      logger.error(err.message, {
+        module: 'natsClient',
+        method: 'listConsumers',
+      });
 
       return [];
     }
@@ -147,7 +174,10 @@ class NATSClient {
       const res = await this.jsm.consumers.info(stream, consumer);
       return res;
     } catch (err) {
-      logger.error(err.message, { module: 'natsClient', method: 'getConsumer' });
+      logger.error(err.message, {
+        module: 'natsClient',
+        method: 'getConsumer',
+      });
 
       return null;
     }
@@ -162,7 +192,10 @@ class NATSClient {
       });
       return res;
     } catch (err) {
-      logger.error(err.message, { module: 'natsClient', method: 'addConsumer' });
+      logger.error(err.message, {
+        module: 'natsClient',
+        method: 'addConsumer',
+      });
       throw err;
     }
   }
@@ -172,14 +205,20 @@ class NATSClient {
       const res = await this.jsm.consumers.delete(stream, consumer);
       return res;
     } catch (err) {
-      logger.error(err.message, { module: 'natsClient', method: 'deleteConsumer' });
+      logger.error(err.message, {
+        module: 'natsClient',
+        method: 'deleteConsumer',
+      });
       throw err;
     }
   }
 
   async publish(subject, obj) {
     try {
-      const pa = await this.js.publish(subject, this.sc.encode(JSON.stringify(obj)));
+      const pa = await this.js.publish(
+        subject,
+        this.sc.encode(JSON.stringify(obj))
+      );
       return pa;
     } catch (err) {
       logger.error(err.message, { module: 'natsClient', method: 'publish' });
@@ -234,7 +273,10 @@ class NATSClient {
 
       delete this.subs[subject];
     } catch (err) {
-      logger.error(err.message, { module: 'natsClient', method: 'unsubscribe' });
+      logger.error(err.message, {
+        module: 'natsClient',
+        method: 'unsubscribe',
+      });
     }
   }
 }

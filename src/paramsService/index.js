@@ -23,8 +23,14 @@ const run = async () => {
         const tFactor = Math.random().toFixed(2);
         const mFactor = Math.random().toFixed(2);
 
-        await axios.post(`${domainService.params.endpoint}/api/v1/factor/thickness`, { factor: tFactor });
-        await axios.post(`${domainService.params.endpoint}/api/v1/factor/moisture`, { factor: mFactor });
+        await axios.post(
+          `${domainService.params.endpoint}/api/v1/factor/thickness`,
+          { factor: tFactor }
+        );
+        await axios.post(
+          `${domainService.params.endpoint}/api/v1/factor/moisture`,
+          { factor: mFactor }
+        );
       }, cron.paramsPeriod);
 
       resolve(handler);

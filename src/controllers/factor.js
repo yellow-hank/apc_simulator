@@ -21,12 +21,10 @@ const create = async (thickness, moisture) => {
 };
 
 const get = async (filter) => {
-  
   const data = await Factor.findOne({});
-  if(data)
+  if (data)
     return { id: data._id, thickness: data.thickness, moisture: data.moisture };
   return null;
-  
 };
 
 const update = async (filter, data) => {
